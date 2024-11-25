@@ -1,0 +1,77 @@
+architecture Behavioral of manul_cpu is
+
+-- 0 stack DEPTH
+
+constant cmdNOP : integer := 0;
+constant cmdRET : integer := 1;
+constant cmdSWAP : integer := 3;
+constant cmdJMP32 : integer := 8;
+constant cmdCALL32 : integer := 9;
+constant cmdOUT1616 : integer := 10;
+constant cmdCALL16 : integer := 11;
+constant cmdJMP16 : integer := 12;
+constant cmdLOOP : integer := 13;
+
+constant cmdFETCH : integer := 16; -- 0x10
+constant cmdNOT : integer := 17; -- 0x11
+constant cmdNEGATE : integer := 18; -- 0x12
+constant cmdSHL : integer := 19; -- 0x13
+constant cmdSHR : integer := 20; -- 0x14
+constant cmdSHRA : integer := 21; -- 0x15
+constant cmdINPORT : integer := 22; -- 0x16
+constant cmdPICK : integer := 23; -- 0x17
+
+constant cmdPLUS32 : integer := 24; -- 0x18
+constant cmdMINUS32 : integer := 25; -- 0x18
+constant cmdAND32 : integer := 26; -- 0x18
+constant cmdOR32 : integer := 27; -- 0x18
+constant cmdXOR32 : integer := 28; -- 0x18
+
+-- +1 stack DEPTH
+constant cmdDUP : integer := 32;   -- 0x20
+constant cmdOVER : integer := 33;  -- 0x21
+constant cmdGETDP : integer := 34;  -- 0x21
+constant cmdGETRP : integer := 35;  -- 0x21
+constant cmdI : integer := 36;  -- 0x21
+
+constant cmdLIT32 : integer := 40; -- 0x28
+constant cmdLIT16 : integer := 41; -- 0x28
+constant cmdLIT8 : integer := 42; -- 0x28
+
+
+-- -1 stack DEPTH
+
+constant cmdPLUS : integer := 64;  -- 0x40
+constant cmdMINUS : integer := 65;
+constant cmdAND : integer := 66;
+constant cmdOR : integer := 67;
+constant cmdXOR : integer := 68;
+constant cmdEQUAL : integer := 69;
+constant cmdLESSER : integer := 70;
+constant cmdGREATER : integer := 71;
+constant cmdMULT : integer := 72;
+
+constant cmdDROP : integer := 80; -- 0x50
+constant cmdJMP : integer := 81; -- 0x51
+constant cmdSETDP : integer := 82;
+constant cmdSETRP : integer := 83;
+constant cmdIF : integer := 86;
+constant cmdUNTIL : integer := 87; 
+constant cmdCALL : integer := 88;
+constant cmdUNTIL16 : integer := 89; 
+constant cmdIF16 : integer := 90;
+
+
+-- -2 stack depth
+
+constant cmdSTORE : integer := 96; 
+constant cmdOUTPORT : integer := 97;
+
+constant cmdPLUSSTORE32 : integer := 99;
+constant cmdMINUSSTORE32 : integer := 100;
+
+constant cmdDO : integer := 101;
+
+-- +2 stack depth
+
+constant cmdFETCH1616 : integer := 112;
