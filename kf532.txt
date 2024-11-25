@@ -1,0 +1,42 @@
+architecture Behavioral of kf532 is
+
+constant cmdNOP     : integer := 0;
+
+constant cmdNOT     : integer := 1;
+constant cmdFETCH   : integer := 2;
+constant cmdSHL     : integer := 3;
+constant cmdSHR     : integer := 4;
+constant cmdSHRA    : integer := 5;
+constant cmdINPORT  : integer := 6;
+
+constant cmdSWAP    : integer := 7;
+
+constant cmdDUP     : integer := 8;
+constant cmdOVER    : integer := 9;
+constant cmdFROMR   : integer := 10;
+constant cmdLOOP    : integer := 11;
+constant cmdSYSREG  : integer := 12;
+
+constant cmdPLUS    : integer := 13;
+constant cmdMINUS   : integer := 14;
+constant cmdAND     : integer := 15;
+constant cmdOR      : integer := 16;
+constant cmdXOR     : integer := 17;
+constant cmdEQUAL   : integer := 18;
+constant cmdLESSER  : integer := 19;
+constant cmdGREATER : integer := 20;
+constant cmdMULT    : integer := 21;
+
+constant cmdDROP    : integer := 22;
+constant cmdJMP     : integer := 23;
+constant cmdCALL    : integer := 24;
+constant cmdRJMP    : integer := 25;
+constant cmdTOR     : integer := 26;
+
+constant cmdSTORE   : integer := 27;
+constant cmdDO      : integer := 28;
+
+constant cmdRIF     : integer := 29;
+constant cmdUNTIL   : integer := 30;
+
+constant cmdRET     : integer := 31;
