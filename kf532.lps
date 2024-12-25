@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="kf532.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="96"/>
+        <CursorPos X="51" Y="112"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="9">
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="4" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="12" Column="7"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="14" Column="53" TopLine="2"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="17" Column="17" TopLine="4"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="24" Column="68" TopLine="5"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="51" Column="11" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="118" Column="36" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="104" Column="30" TopLine="89"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="3" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="kf532.lpr"/>
+        <Caret Line="112" Column="50" TopLine="93"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default">
+        <Mode Name="default">
+          <local>
+            <CommandLineParams Value="demo.kf"/>
+          </local>
+        </Mode>
+      </Modes>
+    </RunParams>
+    <HistoryLists>
+      <List Name="WorkingDirectory" Type="File" Count="1"/>
+      <List Name="LaunchingApplication" Type="File" Count="1">
+        <Item1 Value="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
+      </List>
+      <List Name="CommandLineParameters" Count="2">
+        <Item1 Value="demo.kf"/>
+      </List>
+    </HistoryLists>
+  </ProjectSession>
+</CONFIG>
