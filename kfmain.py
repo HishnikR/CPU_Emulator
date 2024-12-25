@@ -27,7 +27,7 @@ def make_image(w, h, pixels):
     data = header + pixels
     return tk.PhotoImage(width=w, height=h, data=data, format='PPM')
 
-
+# передача образа памяти в виджет Tk
 def update():
     for y in range(256):
         for x in range(256):
@@ -40,6 +40,8 @@ def update():
     label.image = make_image(256, 256, screen).zoom(2, 2)
     label.config(image=label.image)
     root.after(16, update)
+
+# эмуляция команд процессора
 def step():
     global pc
     global depth
@@ -115,7 +117,7 @@ def step():
             pc = rstack[rdepth]
         case _:
             pass
-
+# обработка литералов. все команды вида 1xxxxx - загрузка на стек xxxxx со сдвигом
     if cmd in range(32, 64):
             if litflag == 0:
                 depth = depth + 1
@@ -177,7 +179,7 @@ def compile_lit(x):
         compile(32 + ((x >> 5) & 31))
     compile(32 + (x & 31))
 
-
+# встроенный ассемблер
 def interpret(str):
     tokens = str.split()
     print(tokens)
@@ -188,6 +190,8 @@ def interpret(str):
             case '+':
                 compile(13)
             case '!':
+                compile(27)
+            case 'OUTPORT':
                 compile(27)
             case 'do':
                 compile(28)
@@ -204,12 +208,19 @@ def interpret(str):
 
 reset()
 
-interpret("15 0 + 100000 ! 15 100004 ! 5 0 do i loop nop")
+interpret("15 100000 !")
+interpret("15 100004 !")
+interpret("15 100008 !")
+interpret("15 100012 !")
+interpret("15 100016 !")
+interpret("15 100020 !")
 
+# запуск программы до конца памяти
 while pc < here:
     step()
     report()
 
+# цикл обновления экрана
 root = tk.Tk()
 label = tk.Label()
 label.pack()
@@ -218,3 +229,5 @@ tk.mainloop()
 
 
 print(program[0:here])
+for j in range(here):
+    print(j, "=> (conv_std_logic_vector(", program[j], ", 6)),")
