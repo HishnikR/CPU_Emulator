@@ -117,6 +117,6 @@ assemble('jmpnz start')
 print('Code size =', codeptr)
 print('Program:')
 for i in range (0, codeptr):
-    print(hex(code[i]))
+    print(i, ' => conv_std_logic_vector(', code[i], ', 24),')
 
 
