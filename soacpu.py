@@ -13,7 +13,16 @@ flag = 1
 code = [0]*CODESIZE
 packet = [0]*PACKETSIZE
 
-matchtable = [[[0] * 256] * TABLES]
+matchtable = [[0 for i in range(256)] for j in range(TABLES)]
+table = 0
+
+
+def settable(start, end):
+    global table
+    global matchtable
+    print('Setting: ', start, '..', end, '[', chr(start), chr(end), '] for subset ', table)
+    for i in range (start, end):
+        matchtable[i][table] = 1
 
 
 def ismatch(sym, tabindex):
@@ -22,6 +31,7 @@ def ismatch(sym, tabindex):
         return True
     else:
         return False
+
 
 def addcmd(x):
     global codeptr
@@ -49,8 +59,6 @@ def addcmdlitlit(cmd, lit1, lit2):
 # constant EQSETSYM : std_logic_vector(3 downto 0) := "0101";
 
 
-
-
 def assemble(line):
     token = line.split()
     match token[0]:
@@ -65,7 +73,7 @@ def assemble(line):
         case 'toindexend':
             addcmdlitlit(3, int(token[1]), int(token[2]))
         case 'eqset':
-            addcmdlitlit(4, int(token[1]))
+            addcmdlit(4, int(token[1]))
         case 'eqsetsym':
             addcmdlitlit(5, int(token[1]), int(token[2]))
         case _:
@@ -76,7 +84,10 @@ print('Assembling')
 assemble('eq 1')
 assemble('eq 2')
 assemble('eq 42')
+assemble('eqset 1')
+assemble('eqset 2')
 assemble('eq 0')
+
 
 
 
@@ -155,7 +166,17 @@ def run():
     print('Done, flag = ', flag)
 
 
+table = 0
+settable(0, 255)
+
+table = 1
+settable(48, 57)
+
+table = 2
+settable(65, 90)
+
 packetsize = 10
-packet = [1, 2, 42, 48, 49, 50, 51, 52, 53, 54]
+packet = [1, 2, 42, 48, 69, 50, 51, 52, 53, 54]
 
 run()
+
