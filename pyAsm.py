@@ -55,8 +55,22 @@ def resolve(label):
             code[lab] |= codeptr
 
 
+
+
 def asm(line):
     global codeptr
+
+    def trylabel(opcode):
+        global codeptr
+        global Labels
+        global Forwards
+        nonlocal token
+        if token[1] in Labels:
+            addcmdlit(opcode, Labels[token[1]])
+        else:
+            Forwards[codeptr] = token[1]
+            addcmdlit(opcode, 0)
+
     token = line.split()
     match token[0]:
         case 'label':
@@ -67,29 +81,13 @@ def asm(line):
         case 'ret':
             addcmd(1 << 19)
         case 'jmp':
-            if token[1] in Labels:
-                addcmdlit(2, Labels[token[1]])
-            else:
-                Forwards[codeptr] = token[1]
-                addcmdlit(2, 0)
+            trylabel(2)
         case 'call':
-            if token[1] in Labels:
-                addcmdlit(3, Labels[token[1]])
-            else:
-                Forwards[codeptr] = token[1]
-                addcmdlit(3, 0)
+            trylabel(3)
         case 'jmpnz':
-            if token[1] in Labels:
-                addcmdlit(4, Labels[token[1]])
-            else:
-                Forwards[codeptr] = token[1]
-                addcmdlit(4, 0)
+            trylabel(4)
         case 'jmpz':
-            if token[1] in Labels:
-                addcmdlit(5, Labels[token[1]])
-            else:
-                Forwards[codeptr] = token[1]
-                addcmdlit(5, 0)
+            trylabel(5)
         case 'store':
             addcmdregreg(6, regindex(token[1]), regindex(token[2]))
         case 'load':
@@ -123,11 +121,13 @@ def asm(line):
         case _:
             print('Error: ', token[0])
 
-def asm_lines(code):
-    for line in code.split('\n'):
+
+def asm_lines(text):
+    for line in text.split('\n'):
         line = line.strip()
         if line:
             asm(line)
+
 
 print('Assembling')
 asm_lines('''movl r0 0
@@ -151,7 +151,7 @@ movl r3 20000
 in r0 r3
 movl r2 0
 load r1 r2
-mul r0 r1
+mult r0 r1
 movl r2 1
 load r1 r2
 add r0 r1
