@@ -1,6 +1,7 @@
 CODESIZE = 16384
 
 Labels = dict()
+Forwards = dict()
 
 codeptr = 0
 
@@ -14,26 +15,19 @@ def addcmd(x):
 
 
 def addcmdlit(cmd, lit):
-    global codeptr
-    code[codeptr] = (cmd << 19) + lit
-    codeptr += 1
+    addcmd((cmd << 19) + lit)
 
 
 def addcmdreg(cmd, reg):
-    global codeptr
-    code[codeptr] = (cmd << 19) + (reg << 16)
-    codeptr += 1
+    addcmd((cmd << 19) + (reg << 16))
 
 
 def addcmdreglit(cmd, reg, lit):
-    global codeptr
-    code[codeptr] = (cmd << 19) + (reg << 16) + lit
-    codeptr += 1
+    addcmd((cmd << 19) + (reg << 16) + lit)
+
 
 def addcmdregreg(cmd, regdest, regsrc):
-    global codeptr
-    code[codeptr] = (cmd << 19) + (regdest << 16) + (regsrc << 14)
-    codeptr += 1
+    addcmd((cmd << 19) + (regdest << 16) + (regsrc << 14))
 
 
 def regindex(regname):
@@ -52,23 +46,50 @@ def regindex(regname):
     return temp
 
 
-def assemble(line):
+def resolve(label):
+    global Forwards
+    global code
+    global codeptr
+    for lab in Forwards:
+        if Forwards[lab] == label:
+            code[lab] |= codeptr
+
+
+def asm(line):
+    global codeptr
     token = line.split()
     match token[0]:
         case 'label':
             Labels[token[1]] = codeptr
+            resolve(token[1])
         case 'nop':
             addcmd(0)
         case 'ret':
             addcmd(1 << 19)
         case 'jmp':
-            addcmdlit(2, Labels[token[1]])
+            if token[1] in Labels:
+                addcmdlit(2, Labels[token[1]])
+            else:
+                Forwards[codeptr] = token[1]
+                addcmdlit(2, 0)
         case 'call':
-            addcmdlit(3, Labels[token[1]])
+            if token[1] in Labels:
+                addcmdlit(3, Labels[token[1]])
+            else:
+                Forwards[codeptr] = token[1]
+                addcmdlit(3, 0)
         case 'jmpnz':
-            addcmdlit(4, Labels[token[1]])
+            if token[1] in Labels:
+                addcmdlit(4, Labels[token[1]])
+            else:
+                Forwards[codeptr] = token[1]
+                addcmdlit(4, 0)
         case 'jmpz':
-            addcmdlit(5, Labels[token[1]])
+            if token[1] in Labels:
+                addcmdlit(5, Labels[token[1]])
+            else:
+                Forwards[codeptr] = token[1]
+                addcmdlit(5, 0)
         case 'store':
             addcmdregreg(6, regindex(token[1]), regindex(token[2]))
         case 'load':
@@ -102,21 +123,52 @@ def assemble(line):
         case _:
             print('Error: ', token[0])
 
+def asm_lines(code):
+    for line in code.split('\n'):
+        line = line.strip()
+        if line:
+            asm(line)
 
 print('Assembling')
-assemble('nop')
-assemble('add r2 r1')
-assemble('label main')
-assemble('jmp main')
-assemble('store r1 r2')
-assemble('load r3 r2')
-assemble('label start')
-assemble('movl r3 1234')
-assemble('jmpnz start')
+asm_lines('''movl r0 0
+movl r1 1000000
+store r1 r0
+movl r0 1
+movl r1 2000000
+store r1 r0
+jmp main
+label delay
+dec r0
+cmp r0 r1
+jmpnz delay
+ret
+label main
+movl r1 1
+label loop
+movl r3 10000
+out r2 r3
+movl r3 20000
+in r0 r3
+movl r2 0
+load r1 r2
+mul r0 r1
+movl r2 1
+load r1 r2
+add r0 r1
+movl r1 0
+call delay
+shl r2
+movl r1 16
+cmp r2 r1
+jmpnz loop
+movl r2 1
+jmp loop''')
+
 
 print('Code size =', codeptr)
 print('Program:')
 for i in range (0, codeptr):
     print(i, ' => conv_std_logic_vector(', code[i], ', 24),')
 
+print(Labels)
 
