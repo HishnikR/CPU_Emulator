@@ -197,7 +197,7 @@ def make_cmd():
             else:
                 zflag = 0
         case 12:
-            reg[dest] = inport(reg[src])
+            reg[src] = inport(reg[dest])
         case 13:
             outport(reg[dest], reg[src])
         case 14:
