@@ -197,7 +197,7 @@ def make_cmd():
             else:
                 zflag = 0
         case 12:
-            reg[src] = inport(reg[dest])
+            reg[dest] = inport(reg[src])
         case 13:
             outport(reg[dest], reg[src])
         case 14:
@@ -229,10 +229,10 @@ def asm_lines(text):
 
 print('Assembling')
 asm_lines('''movl r0 0
-movl r1 5
+movl r1 200000
 store r0 r1
 movl r0 1
-movl r1 10
+movl r1 1000000
 store r0 r1
 movl r3 1
 jmp main
@@ -246,7 +246,7 @@ label main
 label loop
 movl r1 10000
 out r1 r3
-movl r1 20000
+movl r0 20000
 in r0 r1
 movl r2 0
 load r1 r2
